@@ -26,3 +26,17 @@ data = data[3]
 data = data("table")[0]
 # Filter all table rows ("tr") // len(data("table")[0]) = 375
 data = data("tr")
+
+# Obtain values parsed data
+rows = []
+for i in range(4, len(data)):
+	# Data from data[0] to data[3] are not ones with desired data
+	tr = data[i]
+	# Use .string to pull strings of the object
+	value = [td.string for td in tr("td")]
+	# Data of country, year, men years and women years are in 'data[i]("td")[x].string' where x are 0, 1, 7, 10.
+	rows.append(list(value[i] for i in [0, 1, 7, 10]))
+
+# ----------------
+# STORE DATA
+# ----------------
