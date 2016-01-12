@@ -4,8 +4,10 @@
 
 # Beautiful Soup is a Python package designed for navigating, searching and modifying parse tree.
 # Requests is a package that allows download of data from any online resource.
+# The sqlite3 model is used to work with the SQLite database.
 from bs4 import BeautifulSoup
 import requests
+import sqlite3 as lite
 
 # ----------------
 # OBTAIN DATA
@@ -40,3 +42,15 @@ for i in range(4, len(data)):
 # ----------------
 # STORE DATA
 # ----------------
+
+# Connect to the database. The "connect()" method returns a connection object.
+con = lite.connect("education.db")
+cur = con.cursor()
+
+# Create the table specifying the name of columns and their data types.
+with con:
+	# Drop currently existing tables.
+	cur.execute("DROP TABLE IF EXISTS un_education")
+	# Construct the table and add the listed and ordered data.
+	cur.execute("CREATE TABLE un_education (country TEXT, year INT, men INT, women INT);")
+	cur.executemany("INSERT INTO un_education (country, year, men, women) VALUES (?, ?, ?, ?)", rows)
