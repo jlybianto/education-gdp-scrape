@@ -5,9 +5,11 @@
 # Beautiful Soup is a Python package designed for navigating, searching and modifying parse tree.
 # Requests is a package that allows download of data from any online resource.
 # The sqlite3 model is used to work with the SQLite database.
+# The pandas package is used to fetch and store data in a DataFrame.
 from bs4 import BeautifulSoup
 import requests
 import sqlite3 as lite
+import pandas as pd
 
 # ----------------
 # OBTAIN DATA
@@ -54,3 +56,10 @@ with con:
 	# Construct the table and add the listed and ordered data.
 	cur.execute("CREATE TABLE un_education (country TEXT, year INT, men INT, women INT);")
 	cur.executemany("INSERT INTO un_education (country, year, men, women) VALUES (?, ?, ?, ?)", rows)
+
+# ----------------
+# ANALYZE DATA
+# ----------------
+
+# Load collected data into a DataFrame
+df = pd.DataFrame(rows, columns=["Country", "Year", "Men", "Women"])
