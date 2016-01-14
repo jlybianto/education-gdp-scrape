@@ -63,3 +63,14 @@ with con:
 
 # Load collected data into a DataFrame
 df = pd.DataFrame(rows, columns=["Country", "Year", "Men", "Women"])
+# Set "Year" column to be the index
+df = df.set_index("Year")
+# Convert the values under the "Men" and "Women" column
+df[["Men", "Women"]] = df[["Men", "Women"]].astype(int)
+
+# Determine the average and standard deviation (variation) of the number of years each gender goes for education.
+print("")
+print("The international average number of years " + str(df.columns[1]).lower() + " are likely to stay in school is " 
+	+ str(round(df["Men"].mean(), 2)) + " with a variation of approximately " + str(round(df["Men"].std(), 2)) + " years.")
+print("The international average number of years " + str(df.columns[2]).lower() + " are likely to stay in school is " 
+	+ str(round(df["Women"].mean(), 2)) + " with a variation of approximately " + str(round(df["Women"].std(), 2)) + " years.")
