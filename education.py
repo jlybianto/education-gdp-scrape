@@ -74,3 +74,13 @@ print("The international average number of years " + str(df.columns[1]).lower() 
 	+ str(round(df["Men"].mean(), 2)) + " with a variation of approximately " + str(round(df["Men"].std(), 2)) + " years.")
 print("The international average number of years " + str(df.columns[2]).lower() + " are likely to stay in school is " 
 	+ str(round(df["Women"].mean(), 2)) + " with a variation of approximately " + str(round(df["Women"].std(), 2)) + " years.")
+
+# ----------------
+# MODEL DATA
+# ----------------
+
+
+
+# ----------------
+# VISUALIZE DATA
+# ----------------
