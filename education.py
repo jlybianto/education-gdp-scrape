@@ -6,10 +6,12 @@
 # Requests is a package that allows download of data from any online resource.
 # The sqlite3 model is used to work with the SQLite database.
 # The pandas package is used to fetch and store data in a DataFrame.
+# The csv (comma separated values) module implements classes to read and write tabular data.
 from bs4 import BeautifulSoup
 import requests
 import sqlite3 as lite
 import pandas as pd
+import csv
 
 # ----------------
 # OBTAIN DATA
@@ -40,6 +42,15 @@ for i in range(4, len(data)):
 	value = [td.string for td in tr("td")]
 	# Data of country, year, men years and women years are in 'data[i]("td")[x].string' where x are 0, 1, 7, 10.
 	rows.append(list(value[i] for i in [0, 1, 7, 10]))
+
+
+# Import country GDP data from CSV file.
+# Data columns start in Row 5
+df_gdp = pd.read_csv("country-gdp-1960-2014.csv", skiprows=4)
+# Filter columns with years of interest (UN Data 1999-2010)
+col = pd.period_range("1999", "2010", freq="A-DEC")
+col = ["Country Name"] + list(str(year) for year in col)
+col = df_gdp[col]
 
 # ----------------
 # STORE DATA
