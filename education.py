@@ -43,7 +43,6 @@ for i in range(4, len(data)):
 	# Data of country, year, men years and women years are in 'data[i]("td")[x].string' where x are 0, 1, 7, 10.
 	rows.append(list(value[i] for i in [0, 1, 7, 10]))
 
-
 # Import country GDP data from CSV file.
 # Data columns start in Row 5
 df_gdp = pd.read_csv("country-gdp-1960-2014.csv", skiprows=4)
@@ -60,13 +59,19 @@ col = df_gdp[col]
 con = lite.connect("education.db")
 cur = con.cursor()
 
-# Create the table specifying the name of columns and their data types.
+# Create the table specifying the name of columns and their data types for country, years of education and gender.
 with con:
-	# Drop currently existing tables.
+	# Drop currently existing table.
 	cur.execute("DROP TABLE IF EXISTS un_education")
 	# Construct the table and add the listed and ordered data.
 	cur.execute("CREATE TABLE un_education (country TEXT, year INT, men INT, women INT);")
 	cur.executemany("INSERT INTO un_education (country, year, men, women) VALUES (?, ?, ?, ?)", rows)
+
+# Create the table specifying the name of columns and their data types.
+with con:
+	# Drop currently existing table
+	cur.execute("DROP TABLE IF EXISTS gdp")
+	# Construct the table
 
 # ----------------
 # ANALYZE DATA
