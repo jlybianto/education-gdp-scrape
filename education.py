@@ -87,26 +87,26 @@ load = ("SELECT T1.Country, T1.Year, Men, Women, GDP "
 		"INNER JOIN gdp T2 ON T1.Country = T2.Country "
 		"AND T1.Year = T2.Year")
 
-df_clean = pd.read_sql_query(load, con)
-df_clean.dropna(inplace=True)
+df = pd.read_sql_query(load, con)
+df.dropna(inplace=True)
 
 # ----------------
 # ANALYZE DATA
 # ----------------
 
 # Load collected data into a DataFrame
-df = pd.DataFrame(rows, columns=["Country", "Year", "Men", "Women"])
+df_un = pd.DataFrame(rows, columns=["Country", "Year", "Men", "Women"])
 # Set "Year" column to be the index
-df = df.set_index("Year")
+df_un = df_un.set_index("Year")
 # Convert the values under the "Men" and "Women" column
-df[["Men", "Women"]] = df[["Men", "Women"]].astype(int)
+df_un[["Men", "Women"]] = df_un[["Men", "Women"]].astype(int)
 
 # Determine the average and standard deviation (variation) of the number of years each gender goes for education.
 print("")
-print("The international average number of years " + str(df.columns[1]).lower() + " are likely to stay in school is " 
-	+ str(round(df["Men"].mean(), 2)) + " with a variation of approximately " + str(round(df["Men"].std(), 2)) + " years.")
-print("The international average number of years " + str(df.columns[2]).lower() + " are likely to stay in school is " 
-	+ str(round(df["Women"].mean(), 2)) + " with a variation of approximately " + str(round(df["Women"].std(), 2)) + " years.")
+print("The international average number of years " + str(df_un.columns[1]).lower() + " are likely to stay in school is " 
+	+ str(round(df_un["Men"].mean(), 2)) + " with a variation of approximately " + str(round(df_un["Men"].std(), 2)) + " years.")
+print("The international average number of years " + str(df_un.columns[2]).lower() + " are likely to stay in school is " 
+	+ str(round(df_un["Women"].mean(), 2)) + " with a variation of approximately " + str(round(df_un["Women"].std(), 2)) + " years.")
 
 # ----------------
 # MODEL DATA
