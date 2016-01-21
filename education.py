@@ -47,9 +47,10 @@ for i in range(4, len(data)):
 # Data columns start in Row 5
 df_gdp = pd.read_csv("country-gdp-1960-2014.csv", skiprows=4)
 # Filter columns with years of interest (UN Data 1999-2010)
-col = pd.period_range("1999", "2010", freq="A-DEC")
-col = ["Country Name"] + list(str(year) for year in col)
-col = df_gdp[col]
+period = pd.period_range("1999", "2010", freq="A-DEC")
+period = list(str(t) for t in period)
+col = ["Country Name"] + period
+df_gdp = df_gdp[col]
 
 # ----------------
 # STORE DATA
@@ -64,7 +65,7 @@ with con:
 	# Drop currently existing table.
 	cur.execute("DROP TABLE IF EXISTS un_education")
 	# Construct the table and add the listed and ordered data.
-	cur.execute("CREATE TABLE un_education (country TEXT, year INT, men INT, women INT);")
+	cur.execute("CREATE TABLE un_education (Country TEXT, Year INT, Men INT, Women INT);")
 	cur.executemany("INSERT INTO un_education (country, year, men, women) VALUES (?, ?, ?, ?)", rows)
 
 # Create the table specifying the name of columns and their data types.
@@ -72,6 +73,22 @@ with con:
 	# Drop currently existing table
 	cur.execute("DROP TABLE IF EXISTS gdp")
 	# Construct the table
+	cur.execute("CREATE TABLE gdp (Country TEXT, Year INT, GDP NUMERIC);")
+	for row in df_gdp.index:
+		values = []
+		for year in period:
+			values = values + [(df_gdp.ix[row]["Country Name"], year, df_gdp.ix[row][year])]
+		cur.executemany("INSERT INTO gdp (Country, Year, GDP) VALUES (?, ?, ?)", values)
+
+# Load the data from two separate tables into a single DataFrame.
+# Table columns are "Country, Year, Men, Women, GDP"
+load = ("SELECT T1.Country, T1.Year, Men, Women, GDP "
+		"FROM un_education T1 "
+		"INNER JOIN gdp T2 ON T1.Country = T2.Country "
+		"AND T1.Year = T2.Year")
+
+df_clean = pd.read_sql_query(load, con)
+df_clean.dropna(inplace=True)
 
 # ----------------
 # ANALYZE DATA
