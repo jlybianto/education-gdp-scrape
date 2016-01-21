@@ -7,11 +7,13 @@
 # The sqlite3 model is used to work with the SQLite database.
 # The pandas package is used to fetch and store data in a DataFrame.
 # The csv (comma separated values) module implements classes to read and write tabular data.
+# The matplotlib package is for graphical outputs (eg. box-plot, histogram, QQ-plot).
 from bs4 import BeautifulSoup
 import requests
 import sqlite3 as lite
 import pandas as pd
 import csv
+import matplotlib.pyplot as plt
 
 # ----------------
 # OBTAIN DATA
