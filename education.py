@@ -9,6 +9,7 @@
 # The csv (comma separated values) module implements classes to read and write tabular data.
 # The matplotlib package is for graphical outputs (eg. box-plot, histogram, QQ-plot).
 # The numpy package is for scientific computing and container of generic data (used for generating a continuous distribution)
+# The statsmodels is used to find the model coefficients. Formula holds lower case models.
 from bs4 import BeautifulSoup
 import requests
 import sqlite3 as lite
@@ -16,6 +17,7 @@ import pandas as pd
 import csv
 import matplotlib.pyplot as plt
 import numpy as np
+import statsmodels.api as sm
 
 # ----------------
 # OBTAIN DATA
@@ -157,3 +159,44 @@ plt.show()
 # MODEL DATA
 # ----------------
 
+# Model logarithm of GDP and school life expectancy
+logGDP = df["log_GDP"]
+men = df["Men"]
+women = df["Women"]
+
+# Extraction of a column from a DataFrame is returned as a Series data type.
+z = np.matrix(logGDP).transpose()
+y = np.matrix(men).transpose()
+x = np.matrix(women).transpose()
+w = sm.add_constant(z)
+
+# Create the linear model and summarized evaluation of data.
+model_men = sm.OLS(y, w).fit()
+print ""
+print model_men.summary()
+print "Intercept: ", model_men.params[0]
+print "Coefficient: ", model_men.params[1]
+print "P-Value: ", model_men.pvalues[0]
+print "R-Squared: ", model_men.rsquared
+
+model_women = sm.OLS(x, w).fit()
+print ""
+print model_women.summary()
+print "Intercept: ", model_women.params[0]
+print "Coefficient: ", model_women.params[1]
+print "P-Value: ", model_women.pvalues[0]
+print "R-Squared: ", model_women.rsquared
+
+# Plot scatter together with linear regression
+logspace = np.arange(min(df["log_GDP"]), max(df["log_GDP"]), 0.5)
+plt.figure(figsize=(10, 10))
+plt.scatter(df["log_GDP"], df["Men"], alpha=0.5, color="r")
+plt.scatter(df["log_GDP"], df["Women"], alpha=0.5, color="b")
+plot1, = plt.plot(model_men.params[0] + model_men.params[1] * logspace, "r", label="Men")
+plot2, = plt.plot(model_women.params[0] + model_women.params[1] * logspace, "b", label="Women")
+plt.gca().grid(True)
+plt.legend(handles=[plot1, plot2], loc=2, fontsize=14)
+plt.xlabel("log(Gross Domestic Product)", fontsize=14)
+plt.ylabel("School Life Expectancy (Years)", fontsize=14)
+plt.title("International School Life Expectancy vs Gross Domestic Product", fontsize=16)
+plt.show()
