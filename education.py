@@ -125,7 +125,7 @@ plt.gca().grid(True)
 plt.xlabel("Gross Domestic Product (GDP)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("Male International School Life Expectancy and GDP", fontsize=18)
-plt.show()
+plt.savefig("male_GDP.png")
 
 plt.figure(figsize=(10, 10))
 plt.scatter(df["GDP"], df["Women"], alpha=0.5)
@@ -133,7 +133,7 @@ plt.gca().grid(True)
 plt.xlabel("Gross Domestic Product (GDP)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("Female International School Life Expectancy and GDP", fontsize=18)
-plt.show()
+plt.savefig("female_GDP.png")
 
 # No trend due to extremely wide distribution of GDP values.
 # Attempt with logarithmic transformation.
@@ -145,7 +145,7 @@ plt.gca().grid(True)
 plt.xlabel("Gross Domestic Product (Log GDP)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("Male International School Life Expectancy and Log GDP", fontsize=18)
-plt.show()
+plt.savefig("male_logGDP.png")
 
 plt.figure(figsize=(10, 10))
 plt.scatter(df["log_GDP"], df["Women"], alpha=0.5)
@@ -153,7 +153,7 @@ plt.gca().grid(True)
 plt.xlabel("Gross Domestic Product (Log GDP)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("Female International School Life Expectancy and Log GDP", fontsize=18)
-plt.show()
+plt.savefig("female_logGDP.png")
 
 # ----------------
 # MODEL DATA
@@ -199,4 +199,4 @@ plt.legend(handles=[plot1, plot2], loc=2, fontsize=14)
 plt.xlabel("log(Gross Domestic Product)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("International School Life Expectancy vs Gross Domestic Product", fontsize=16)
-plt.show()
+plt.savefig("SLE_GDP.png")
