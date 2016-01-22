@@ -8,12 +8,14 @@
 # The pandas package is used to fetch and store data in a DataFrame.
 # The csv (comma separated values) module implements classes to read and write tabular data.
 # The matplotlib package is for graphical outputs (eg. box-plot, histogram, QQ-plot).
+# The numpy package is for scientific computing and container of generic data (used for generating a continuous distribution)
 from bs4 import BeautifulSoup
 import requests
 import sqlite3 as lite
 import pandas as pd
 import csv
 import matplotlib.pyplot as plt
+import numpy as np
 
 # ----------------
 # OBTAIN DATA
@@ -111,12 +113,6 @@ print("The international average number of years " + str(df_un.columns[2]).lower
 	+ str(round(df_un["Women"].mean(), 2)) + " with a variation of approximately " + str(round(df_un["Women"].std(), 2)) + " years.")
 
 # ----------------
-# MODEL DATA
-# ----------------
-
-
-
-# ----------------
 # VISUALIZE DATA
 # ----------------
 
@@ -156,3 +152,8 @@ plt.xlabel("Gross Domestic Product (Log GDP)", fontsize=14)
 plt.ylabel("School Life Expectancy (Years)", fontsize=14)
 plt.title("Female International School Life Expectancy and Log GDP", fontsize=18)
 plt.show()
+
+# ----------------
+# MODEL DATA
+# ----------------
+
