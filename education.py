@@ -119,3 +119,40 @@ print("The international average number of years " + str(df_un.columns[2]).lower
 # ----------------
 # VISUALIZE DATA
 # ----------------
+
+# Scatter Plot GDP and School Life Expectancy for Male and Female
+plt.figure(figsize=(10, 10))
+plt.scatter(df["GDP"], df["Men"], alpha=0.5)
+plt.gca().grid(True)
+plt.xlabel("Gross Domestic Product (GDP)", fontsize=14)
+plt.ylabel("School Life Expectancy (Years)", fontsize=14)
+plt.title("Male International School Life Expectancy and GDP", fontsize=18)
+plt.show()
+
+plt.figure(figsize=(10, 10))
+plt.scatter(df["GDP"], df["Women"], alpha=0.5)
+plt.gca().grid(True)
+plt.xlabel("Gross Domestic Product (GDP)", fontsize=14)
+plt.ylabel("School Life Expectancy (Years)", fontsize=14)
+plt.title("Female International School Life Expectancy and GDP", fontsize=18)
+plt.show()
+
+# No trend due to extremely wide distribution of GDP values.
+# Attempt with logarithmic transformation.
+df["log_GDP"] = [np.log10(n) for n in df["GDP"]]
+
+plt.figure(figsize=(10, 10))
+plt.scatter(df["log_GDP"], df["Men"], alpha=0.5)
+plt.gca().grid(True)
+plt.xlabel("Gross Domestic Product (Log GDP)", fontsize=14)
+plt.ylabel("School Life Expectancy (Years)", fontsize=14)
+plt.title("Male International School Life Expectancy and Log GDP", fontsize=18)
+plt.show()
+
+plt.figure(figsize=(10, 10))
+plt.scatter(df["log_GDP"], df["Women"], alpha=0.5)
+plt.gca().grid(True)
+plt.xlabel("Gross Domestic Product (Log GDP)", fontsize=14)
+plt.ylabel("School Life Expectancy (Years)", fontsize=14)
+plt.title("Female International School Life Expectancy and Log GDP", fontsize=18)
+plt.show()
